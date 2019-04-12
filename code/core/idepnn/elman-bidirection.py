@@ -3,8 +3,9 @@ import time
 import os
 import datetime
 from rnn.elman_bidirection_RC import EB_RNN_4
+from rnn.elman_bidirection_RC_LSTM import EB_LSTM
 from utils.getMacroFScore import getMacroFScore
-from utils.features import *
+from utils.features_bb2011_13 import *
 from utils import load_save_pkl
 from scipy.stats import itemfreq
 from sklearn.metrics import precision_recall_fscore_support
@@ -495,6 +496,64 @@ def run(config_state):
                          context_window_usage=context_window_usage)
         else:
             rnn = EB_RNN_4(n_in, n_hidden, n_out, learning_rate_decay, activation=activation, state=state,
+                         use_dropout=use_dropout, optimiser=optimiser, w_hh_initialise_strategy=w_hh_initialise_strategy,
+                         w_hh_type = w_hh_type, position_feat=position_features, entity_presence_feat=augment_entity_presence,
+                         pos_feat_embedding=pos_feat_embedding, pos_indicator_embedding=pos_indicator_embedding,
+                         ent_pres_feat_embedding=ent_pres_feat_embedding,
+                         dim_ent_pres_emb = dim_ent_pres_emb, dim_pos_emb = dim_pos_emb, pos_vocab_size = pos_vocab_size,
+                         pos_emb_type=pos_emb_type, ent_pres_emb_type=ent_pres_emb_type,
+                         reload_model=reload_model, reload_path=reload_path, L2_reg=L2_reg,
+                         context_window_usage=context_window_usage)
+
+    if eb_rnn_type == 'EB_LSTM':
+        print('EB_LSTM bi-directinal LSTM')
+        # Elman-bidirectional type RNN for relation classification
+        if embedding_type == 'theano_word_embeddings':
+            rnn = EB_LSTM(n_in, n_hidden=n_hidden, nout=n_out, learning_rate_decay=learning_rate_decay,
+                         activation=activation, state=state, vocab_size=vocab_size, dim_emb=dim_emb,
+                         context_win_size=context_win_size, embedding=embedding_type, w_hh_type = w_hh_type,
+                         position_feat=position_features, entity_presence_feat=augment_entity_presence,
+                         pos_feat_embedding=pos_feat_embedding, pos_indicator_embedding=pos_indicator_embedding,
+                         ent_pres_feat_embedding=ent_pres_feat_embedding,
+                         dim_ent_pres_emb = dim_ent_pres_emb, dim_pos_emb = dim_pos_emb, pos_vocab_size = pos_vocab_size,
+                         pos_emb_type=pos_emb_type, ent_pres_emb_type=ent_pres_emb_type,
+                         reload_model=reload_model, reload_path=reload_path, L2_reg=L2_reg,
+                         context_window_usage=context_window_usage)
+
+        elif embedding_type == 'word2vec_update':
+            rnn = EB_LSTM(n_in, n_hidden=n_hidden, nout=n_out, learning_rate_decay=learning_rate_decay,
+                         activation=activation, state=state, dim_emb=dim_emb, context_win_size=context_win_size,
+                         embedding=embedding_type, use_dropout=use_dropout, optimiser=optimiser,
+                         w_hh_initialise_strategy=w_hh_initialise_strategy, w_hh_type = w_hh_type,
+                         w2v_embedding=embedding, position_feat=position_features,
+                         entity_presence_feat=augment_entity_presence,
+                         pos_feat_embedding=pos_feat_embedding, pos_indicator_embedding=pos_indicator_embedding,
+                         ent_pres_feat_embedding=ent_pres_feat_embedding,
+                         dim_ent_pres_emb = dim_ent_pres_emb, dim_pos_emb = dim_pos_emb,
+                         pos_vocab_size = pos_vocab_size,
+                         pos_emb_type=pos_emb_type, ent_pres_emb_type=ent_pres_emb_type,
+                         reload_model=reload_model, reload_path=reload_path, L2_reg=L2_reg,
+                         context_window_usage=context_window_usage, postag = postag,
+                         postag_vocab_size = postag_vocab_size, entity_class = entity_class,
+                         entity_class_vocab_size = entity_class_vocab_size, dim_postag_emb = 5,
+                         dim_entity_class_emb = 5, update_pos_emb = update_pos_emb,
+                           update_ner_emb = update_ner_emb,
+                         add_subtree_emb = add_subtree_emb, dim_subtree_emb=dim_subtree_emb, max_degree=overall_max_degree, treernn_weights = treernn_weights)
+
+        elif embedding_type == 'word2vec_init':
+            rnn = EB_LSTM(n_in, n_hidden=n_hidden, nout=n_out, learning_rate_decay=learning_rate_decay,
+                         activation=activation, state=state, dim_emb=dim_emb, context_win_size=context_win_size,
+                         embedding=embedding_type, use_dropout=use_dropout, optimiser=optimiser,
+                         w_hh_initialise_strategy=w_hh_initialise_strategy, w_hh_type = w_hh_type,
+                         position_feat=position_features, entity_presence_feat=augment_entity_presence,
+                         pos_feat_embedding=pos_feat_embedding, pos_indicator_embedding=pos_indicator_embedding,
+                         ent_pres_feat_embedding=ent_pres_feat_embedding,
+                         dim_ent_pres_emb = dim_ent_pres_emb, dim_pos_emb = dim_pos_emb, pos_vocab_size = pos_vocab_size,
+                         pos_emb_type=pos_emb_type, ent_pres_emb_type=ent_pres_emb_type,
+                         reload_model=reload_model, reload_path=reload_path, L2_reg=L2_reg,
+                         context_window_usage=context_window_usage)
+        else:
+            rnn = EB_LSTM(n_in, n_hidden, n_out, learning_rate_decay, activation=activation, state=state,
                          use_dropout=use_dropout, optimiser=optimiser, w_hh_initialise_strategy=w_hh_initialise_strategy,
                          w_hh_type = w_hh_type, position_feat=position_features, entity_presence_feat=augment_entity_presence,
                          pos_feat_embedding=pos_feat_embedding, pos_indicator_embedding=pos_indicator_embedding,

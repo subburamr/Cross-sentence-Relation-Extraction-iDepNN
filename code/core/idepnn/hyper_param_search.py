@@ -11,14 +11,14 @@ config_state = {
     'SHUFFLE': [False],
     'dev_eval_split':[False],
     'EF_RNN_ARC':['s'],
-    'EB_RNN_ARC':['EB_RNN_4'],
-    'n_hidden': [100, 200],
+    'EB_RNN_ARC':['EB_LSTM'],
+    'n_hidden': [100],
     'n_classes':[2],
     'epoch':[500],
-    'lr':[0.001, 0.005, 0.010],
+    'lr':[0.0025],
     'L2_penalty': [0.0001],
     'optimiser':['sgd'], # 'sgd', 'adagrad', 'adadelta'
-    'learning_rate_decay':[0.9],
+    'learning_rate_decay':[0.99],
     'rho':[0.99], # for adadelta
 
     # 'shared', 'transpose' if EF_RNN_ARC is 's->s_rev'
@@ -33,10 +33,10 @@ config_state = {
     # strategy 3: Update learning rate by 'learning_rate_decay', if validation score does not
     # increase in 'update_learning_rate_after_n_epochs' epochs
     'learning_rate_decay_strategy':[3],
-    'update_learning_rate_after_n_epochs':[3],
+    'update_learning_rate_after_n_epochs':[10],
 
     # exploding gradient params, if no gradient clipping then set 'clipstyle' to None
-    'clipstyle':['rescale'],
+    'clipstyle':['None'], # 'rescale in case of vanilla RNN'
     'cutoff':[5.0, 10.0, 20.0],
 
     'augment_entity_presence' : [False],
@@ -53,9 +53,9 @@ config_state = {
     'ent_pres_feat_embedding' : [False],
     'dim_ent_pres_emb' : [5],
     'ent_pres_emb_type' : ['DECOUPLED'],
-    'filename_train_data' : ['../../../data/processed_input/BB2016/train/k_le_1/BB2016_train_data_w_others_k_le_1_sdp_sent.txt'],
-    'filename_dev_data' : ['../../../data/processed_input/BB2016/dev/k_le_1/BB2016_dev_data_w_others_k_le_1_sdp_sent.txt'],
-    'filename_test_data' : ['../../../data/processed_input/BB2016/test/k_le_1/BB2016_test_data_w_others_k_le_1_sdp_sent.txt'],
+    'filename_train_data' : ['../../../data/processed_input/BB2013/split_1/k_le_1/BB2013_train_data_k_le_1_sdp_sent.txt'],
+    'filename_dev_data' : ['../../../data/processed_input/BB2013/split_1/k_le_3/BB2013_dev_data_k_le_3_sdp_sent.txt'],
+    'filename_test_data' : ['../../../data/processed_input/BB2013/split_1/k_le_3/BB2013_dev_data_k_le_3_sdp_sent.txt'],
     'data_set_sent_corpus' : ['../../../data/resources/bb_all_sentences_list.txt'],
     'train_model' : [True],  # True: performs training  False: performs only prediction
     'verbose_print' : [False], # for troubleshooting
@@ -70,20 +70,20 @@ config_state = {
     # 'word2vec_update', 'word2vec_init', '1-hot-encoding', 'theano_word_embeddings'
     'embedding_type':['word2vec_update'],
     'dim_emb':[200],
-    'word2vec_emb_file':['./resources/bionlp_embedding.txt'],
+    'word2vec_emb_file':['../../../data/resources/bionlp_embedding.txt'],
     'normalise_embeddings': [True],
     'context_window_usage':[True],
-    'context_win_size':[1,3],
+    'context_win_size':[1],
     'batch_size':[1],
     'word_minibatch_usage':[False],
 
     # strategy 'rand'       : random initialization
     # strategy 'identity'   : Identity
     # strategy 'ortho'      : orthogonal weights
-    'w_hh_initialise_strategy':['identity'],
+    'w_hh_initialise_strategy':['ortho'],
 
     # 'tanh', 'sigmoid', 'relu', 'cappedrelu'
-    'activation':['tanh','cappedrelu'],
+    'activation':['tanh'],
     # save the model in directory ./models/
     'savemodel':[True],
     'merge_multi_words_for_target_entities':[False],
@@ -94,15 +94,15 @@ config_state = {
     'reload_path':['./models/EB_RNN_RC_word2vec_update_2018-02-20_6/'],
 
     # postag feature
-    'postag': [True], # [True, False]
+    'postag': [False], # [True, False]
     'update_pos_emb': [True], # [True, False]
 
     # Entity class/iob feature
-    'entity_class': [True], # [True, False]
+    'entity_class': [False], # [True, False]
     'update_ner_emb': [True], # [True, False]
 
     # subtree feature
-    'add_subtree_emb': [True], # [True, False]
+    'add_subtree_emb': [False], # [True, False]
     'treernn_weights': ['shared']  # [shared, independent]
 }
 
@@ -119,7 +119,7 @@ for key in config_state.keys():
 import csv
 import os.path
 
-filename = './param_search_rslt.csv'
+filename = './param_search_rslt_RNN_bb_2013_Sdp.csv'
 
 # check if the file exists
 if  os.path.isfile(filename):

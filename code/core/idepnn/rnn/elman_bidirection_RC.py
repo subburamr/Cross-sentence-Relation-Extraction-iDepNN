@@ -148,7 +148,7 @@ class EB_RNN_4(object):
 			    rng.normal(size=(nin, n_hidden), scale= .01, loc = .0), dtype = theano.config.floatX)
 		'''
         self.W_xh_f = np.asarray(
-            rng.normal(size=(nin, n_hidden), scale= .01, loc = .0), dtype = theano.config.floatX)
+                rng.normal(size=(nin, n_hidden), scale= .01, loc = .0), dtype = theano.config.floatX)
         self.W_xh_b = np.asarray(
             rng.normal(size=(nin, n_hidden), scale= .01, loc = .0), dtype = theano.config.floatX)
 
@@ -450,10 +450,13 @@ class EB_RNN_4(object):
                 sdp_sent_aug_info_computation_tree_matrix = T.imatrix(name='sdp_sent_aug_info_computation_tree_matrix')  # shape [None, self.degree]
                 sdp_sent_aug_info_output_tree_state_idx = T.ivector(name='sdp_sent_aug_info_output_tree_state_idx')
                 self.num_words = sdp_sent_aug_info_leaf_internal_x.shape[0]  # total number of nodes (leaves + internal) in tree
+
                 emb_x = self.emb[sdp_sent_aug_info_leaf_internal_x_cwords].reshape((
                     sdp_sent_aug_info_leaf_internal_x.shape[0], self.dim_emb*self.context_win_size))
                 # emb_x = emb_x * T.neq(sdp_sent_aug_info_leaf_internal_x, -1).dimshuffle(0, 'x')  # zero-out non-existent embeddings
+
                 emb_x = emb_x * T.neq(sdp_sent_aug_info_leaf_internal_x, -1).dimshuffle(0, 'x')
+
                 if self.postag == True:
                     emb_x = theano.tensor.concatenate([emb_x, T.zeros((
                         self.num_words, self.dim_postag_emb),
@@ -469,6 +472,7 @@ class EB_RNN_4(object):
                 aug_tree_emb_val = self.tree_states[sdp_sent_aug_info_output_tree_state_idx]
                 x_f = theano.tensor.concatenate([x_f, aug_tree_emb_val], axis=1)
                 x_b = theano.tensor.concatenate([x_b, aug_tree_emb_val[::-1]], axis=1)
+
 
         # network dynamics
         # use the scan operation, which allows to define loops
@@ -556,6 +560,8 @@ class EB_RNN_4(object):
                                                           lr=lr, rho=rho, max_norm=max_norm,
                                                           mom=mom)
 
+
+
         if embedding == 'theano_word_embeddings' or embedding == 'word2vec_update':
             if position_feat == True and entity_presence_feat == True:
                 if self.pos_feat_embedding == True and self.ent_pres_feat_embedding == True:
@@ -570,6 +576,7 @@ class EB_RNN_4(object):
                                                     on_unused_input='warn',
                                                     allow_input_downcast=True)
                     #the update itself happens directly on the parameter variables as part of theano update mechanis
+
                     self.train_step = theano.function([idx_f, idx_b, t, lr, rho, mom, pos_feat, ent_pres_feat,
                                                        pos_feat_idx, ent_pres_feat_idx], cost,
                                                       on_unused_input='ignore',
@@ -1241,6 +1248,7 @@ class EB_RNN_4(object):
     # sequences (if any), prior result(s) (if needed), non-sequences (if any)
     # 'h_tm1': is the prior and would contain the output also for the intermediate computation which will be used in
     # the following computation as prior.
+
     def recurrent_fn(self, u_t, h_tm1, W_hh, W_xh, b_hh):
         h_t = self.activ(T.dot(h_tm1, W_hh) + T.dot(u_t, W_xh) + b_hh)
         return h_t

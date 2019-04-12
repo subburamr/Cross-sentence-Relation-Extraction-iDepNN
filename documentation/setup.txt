@@ -36,4 +36,7 @@
         3.1.2. Generate annotations - run scripts/postprocessing/bb2016_evaluation/?
         3.1.3. Online Evaluation service - http://bibliome.jouy.inra.fr/demo/BioNLP-ST-2016-Evaluation/index.html
                 Note: accepts only .zip format
+                'for i in `ls`; do zip -r $i $i; done'
+        3.1.4 Results to csv format:
+                grep -Eo '[0-9\.]+' t| sed -e '1d;6d;11d;16d' |tr "\n" ","|sed -e '$a\' >> file_name
 

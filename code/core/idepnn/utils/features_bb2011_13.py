@@ -304,7 +304,7 @@ def read_slot_fill(path, slot_names, target_entities, data_type,
         #print('sentence:', s)
         # replace currency symbols by 'currency'
         if replace_currency_symbols == True:
-            s = repalce_currency_symbols_fn(s)
+            s = replace_currency_symbols_fn(s)
 
         # replace time units by 'time'
         if replace_time_units == True:
@@ -499,7 +499,7 @@ def read_filler_candidate_sent_list(cand_sentence_list, slot_names, target_entit
         #print('sentence:', s)
         # replace currency symbols by 'currency'
         if replace_currency_symbols == True:
-            s = repalce_currency_symbols_fn(s)
+            s = replace_currency_symbols_fn(s)
 
         # replace time units by 'time'
         if replace_time_units == True:
@@ -671,7 +671,7 @@ def read_filler_candidate_sent_list_bk(cand_sentence_list, slot_names,
 
         # replace currency symbols by 'currency'
         if replace_currency_symbols == True:
-            s = repalce_currency_symbols_fn(s)
+            s = replace_currency_symbols_fn(s)
 
         # replace time units by 'time'
         if replace_time_units == True:
@@ -790,7 +790,7 @@ def read_semVal_train(path, get_text_btwn_entities=False,
 
                 # replace currency symbols by 'currency'
                 if replace_currency_symbols == True:
-                    s = repalce_currency_symbols_fn(s)
+                    s = replace_currency_symbols_fn(s)
 
                 # replace time units by 'time'
                 if replace_time_units == True:
@@ -823,7 +823,7 @@ def read_semVal_train(path, get_text_btwn_entities=False,
 
             # replace currency symbols by 'currency'
             if replace_currency_symbols == True:
-                s = repalce_currency_symbols_fn(s)
+                s = replace_currency_symbols_fn(s)
 
             # replace time units by 'time'
             if replace_time_units == True:
@@ -874,7 +874,7 @@ def read_semVal_train(path, get_text_btwn_entities=False,
 
             # replace currency symbols by 'currency'
             if replace_currency_symbols == True:
-                s = repalce_currency_symbols_fn(s)
+                s = replace_currency_symbols_fn(s)
 
             # replace time units by 'time'
             if replace_time_units == True:
@@ -1123,7 +1123,7 @@ def read_semVal_test(test_file_path, test_label_file_path, remove_other_class=Tr
 
                 # replace currency symbols by 'currency'
                 if replace_currency_symbols == True:
-                    s = repalce_currency_symbols_fn(s)
+                    s = replace_currency_symbols_fn(s)
 
                 # replace time units by 'time'
                 if replace_time_units == True:
@@ -1153,7 +1153,7 @@ def read_semVal_test(test_file_path, test_label_file_path, remove_other_class=Tr
             s = line.split(':', 1)[1]
             # replace currency symbols by 'currency'
             if replace_currency_symbols == True:
-                s = repalce_currency_symbols_fn(s)
+                s = replace_currency_symbols_fn(s)
 
             # replace time units by 'time'
             if replace_time_units == True:
@@ -1183,7 +1183,7 @@ def read_semVal_test(test_file_path, test_label_file_path, remove_other_class=Tr
 
                 # replace currency symbols by 'currency'
                 if replace_currency_symbols == True:
-                    s = repalce_currency_symbols_fn(s)
+                    s = replace_currency_symbols_fn(s)
 
                 # replace time units by 'time'
                 if replace_time_units == True:
@@ -1339,7 +1339,7 @@ def read_train(path, get_text_btwn_entities=False,
 
                 # replace currency symbols by 'currency'
                 if replace_currency_symbols == True:
-                    s = repalce_currency_symbols_fn(s)
+                    s = replace_currency_symbols_fn(s)
 
                 # replace time units by 'time'
                 if replace_time_units == True:
@@ -1372,7 +1372,7 @@ def read_train(path, get_text_btwn_entities=False,
 
             # replace currency symbols by 'currency'
             if replace_currency_symbols == True:
-                s = repalce_currency_symbols_fn(s)
+                s = replace_currency_symbols_fn(s)
 
             # replace time units by 'time'
             if replace_time_units == True:
@@ -1434,7 +1434,7 @@ def read_train(path, get_text_btwn_entities=False,
 
             # replace currency symbols by 'currency'
             if replace_currency_symbols == True:
-                s = repalce_currency_symbols_fn(s)
+                s = replace_currency_symbols_fn(s)
 
             # replace time units by 'time'
             if replace_time_units == True:

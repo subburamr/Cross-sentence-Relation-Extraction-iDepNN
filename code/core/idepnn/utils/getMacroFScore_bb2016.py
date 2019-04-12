@@ -78,4 +78,4 @@ def getMacroFScore(hypothesisList, referenceList):
             meanF += fscore
             meanP += precision
             meanR += recall
-    return [precisions, recalls, fscores, meanP / len(relationList), meanR / len(relationList), meanF / len(relationList)]
+    return meanF / len(relationList)
